@@ -65,6 +65,7 @@ contract Satellite {
     moduleExists(name) moduleOwner(name) {
         //pre:  module with this name exists; sender is module's owner
         //post: no module with this name exists
+        delete moduleRegistry[name];
     }
 
     function showModule (string name) public constant

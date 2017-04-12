@@ -25,5 +25,8 @@
   "homepage": "https://github.com/travs/melon-satellite#readme",
   "devDependencies": {
     "ethereumjs-testrpc": "^3.0.3"
+  },
+  "dependencies": {
+    "contract-utils": "github:travs/contract-utils"
   }
 }
