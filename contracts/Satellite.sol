@@ -24,8 +24,13 @@ contract Satellite {
         _;
     }
 
-    modifier senderOwnsModule (string name) {
+    modifier moduleOwner (string name) {
         if(moduleRegistry[name].owner != msg.sender) throw;
+        _;
+    }
+
+    modifier notModuleOwner (string name) {
+        if(moduleRegistry[name].owner == msg.sender) throw;
         _;
     }
 
@@ -47,13 +52,17 @@ contract Satellite {
     }
 
     function voteOnModule (string name, bool goodModule) public
-    moduleExists(name) {
+    moduleExists(name) notModuleOwner(name) {
         //pre:  module with this name exists; sender is not module's owner
         //post: module with this name changes its score by +|- 1
+        if(goodModule)
+            moduleRegistry[name].score += 1;
+        else
+            moduleRegistry[name].score -= 1;
     }
 
     function removeModule (string name) public
-    moduleExists(name) senderOwnsModule(name) {
+    moduleExists(name) moduleOwner(name) {
         //pre:  module with this name exists; sender is module's owner
         //post: no module with this name exists
     }

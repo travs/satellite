@@ -9,7 +9,6 @@ module.exports = {
   },
   mocha: {
     slow: 3000,
-    ui: "bdd",
     reporter: 'spec'
   }
 };
