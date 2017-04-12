@@ -1,4 +1,4 @@
-# melon-satellite
+# Melon Satellite
 
 A permissionless registry for publishing and voting on community-made Melon Protocol modules.
 

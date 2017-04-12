@@ -1,0 +1,29 @@
+{
+  "name": "melon-satellite",
+  "version": "0.0.1",
+  "description": "A permissionless registry for publishing and voting on community-made Melon Protocol modules.",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/travs/melon-satellite.git"
+  },
+  "keywords": [
+    "melon",
+    "satellite"
+  ],
+  "author": "Travis Jacobs",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/travs/melon-satellite/issues"
+  },
+  "homepage": "https://github.com/travs/melon-satellite#readme",
+  "devDependencies": {
+    "ethereumjs-testrpc": "^3.0.3"
+  }
+}
