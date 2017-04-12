@@ -2,7 +2,7 @@
 
 # Melon Satellite
 
-A permissionless registry for publishing and voting on community-made Melon Protocol modules.
+A permissionless registry for publishing and voting on community Melon Protocol modules.
 
 ## Usage
 
