@@ -1,6 +1,6 @@
 {
   "name": "melon-satellite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A permissionless registry for publishing and voting on community-made Melon Protocol modules.",
   "main": "truffle.js",
   "directories": {
