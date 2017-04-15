@@ -11,20 +11,23 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/travs/melon-satellite.git"
+    "url": "git+https://github.com/melonproject/satellite.git"
   },
   "keywords": [
     "melon",
-    "satellite"
+    "satellite",
+    "smart contract",
+    "ethereum"
   ],
   "author": "Travis Jacobs",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/travs/melon-satellite/issues"
+    "url": "https://github.com/melonproject/satellite/issues"
   },
-  "homepage": "https://github.com/travs/melon-satellite#readme",
+  "homepage": "https://github.com/melonproject/satellite#readme",
   "dependencies": {
     "contract-utils": "github:travs/contract-utils",
-    "ethereumjs-testrpc": "^3.0.3"
+    "ethereumjs-testrpc": "^3.0.3",
+    "truffle": "3.2.x"
   }
 }
