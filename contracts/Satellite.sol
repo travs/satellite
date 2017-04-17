@@ -14,9 +14,9 @@ contract Satellite {
     }
 
     // EVENTS
-    event RegisterModule(string moduleName);
-    event RemoveModule(string moduleName);
-    event ModifyEntry(string moduleName);
+    event ModuleRegistered(string moduleName);
+    event ModuleRemoved(string moduleName);
+    event EntryModified(string moduleName);
 
     // MODIFIERS
     modifier moduleExists (string name) {
@@ -56,7 +56,7 @@ contract Satellite {
             score: 0,
             exists: true
         });
-        RegisterModule(name);
+        ModuleRegistered(name);
     }
 
     //pre:  module entry exists; sender is module's owner
@@ -67,7 +67,7 @@ contract Satellite {
     {
         Module entry = moduleRegistry[name];
         entry.url = newUrl;
-        ModifyEntry(name);
+        EntryModified(name);
     }
 
     //pre:  module with this name exists; sender is module's owner
@@ -75,7 +75,7 @@ contract Satellite {
     function removeModule (string name) public
     moduleExists(name) moduleOwner(name) {
         delete moduleRegistry[name];
-        RemoveModule(name);
+        ModuleRemoved(name);
     }
 
     //pre:  module with this name exists; sender is not module's owner
