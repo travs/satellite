@@ -2,13 +2,18 @@ const utils = require('contract-utils');
 const extensions = utils.testing;
 const Satellite = artifacts.require('./Satellite.sol');
 
-contract("Satellite", (accounts) => {
+contract("Satellite", accounts => {
 
 let instance;
 before('Preparation', () => {
   Satellite.deployed()
   .then(res => instance = res)
 });
+
+after('Log dump', () => {
+  let events = instance.allEvents({fromBlock: 0, toBlock: 'latest'});
+  events.get((err,res) => console.log(res));
+})
 
 describe("Module registration", () => {
   it("does not error when registering module from outside contract", () => {
@@ -54,12 +59,22 @@ describe("Module voting", () => {
     );
   });
 })
+describe("Entry modification", () => {
+  it("does not error when modifying URL of an entry", () => {
+    assert.doesNotThrow(() =>
+      instance.modifyEntry('day-trader', 'newsite.io', {from: accounts[1]})
+    )
+  });
+  it("stored the changed URL after it is modified", () => {
+    instance.showModule.call('day-trader')
+    .then(res => assert.equal(res[1].toString(), 'newsite.io'));
+  });
+})
 describe("Data access", () => {
   it("returns module data on request", () => {
     instance.showModule.call('day-trader')
     .then(res => assert.isNotNull(res))
   });
-  it("lists registered modules when list function called");
 })
 describe("Module de-registration", () => {
   it("errors on de-registration of a non-existent module", () => {
