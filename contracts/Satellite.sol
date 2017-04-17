@@ -2,16 +2,20 @@ pragma solidity 0.4.8;
 
 contract Satellite {
 
-    string[] public moduleNames;
     mapping (string => Module) private moduleRegistry;
 
     struct Module {
         address owner;
         string moduleName;
         string url;
+        uint created;
         int score;
         bool exists;
     }
+
+    // EVENTS
+    event RegisterModule(string moduleName);
+    event RemoveModule(string moduleName);
 
     // MODIFIERS
     modifier moduleExists (string name) {
@@ -46,9 +50,11 @@ contract Satellite {
             owner: msg.sender,
             moduleName: name,
             url: url,
+            created: now,
             score: 0,
             exists: true
         });
+        RegisterModule(name);
     }
 
     function voteOnModule (string name, bool goodModule) public
@@ -66,6 +72,7 @@ contract Satellite {
         //pre:  module with this name exists; sender is module's owner
         //post: no module with this name exists
         delete moduleRegistry[name];
+        RemoveModule(name);
     }
 
     function showModule (string name) public constant
