@@ -1,5 +1,4 @@
 const TestRPC = require('ethereumjs-testrpc');
-// const server = require('./app/rpc-server');
 
 module.exports = {
   networks: {

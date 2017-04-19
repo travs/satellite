@@ -28,6 +28,9 @@
   "dependencies": {
     "contract-utils": "github:travs/contract-utils",
     "ethereumjs-testrpc": "^3.0.3",
+    "express": "^4.15.2",
+    "sendgrid": "^5.0.0",
+    "sentencer": "^0.1.5",
     "truffle": "3.2.x"
   }
 }
