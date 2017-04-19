@@ -2,67 +2,40 @@ const Web3 = require('web3');
 const contract = require('truffle-contract');
 const satellite_artifacts = require('../build/contracts/Satellite.json');
 const email_artifacts = require('../build/contracts/ProofOfEmail.json');
-
-//contract instances
-let satelliteInstance;
-let emailVerifyInstance
-
-//events
-let registerEvent;
-let deregisterEvent;
-let requestedEvent;
-let puzzledEvent;
-let confirmedEvent;
-
-let moduleIndex = {};
+const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+var helper = require('sendgrid').mail;
+var express = require('express');
+const Sentencer = require('sentencer');
 
 let provider = new Web3.providers.HttpProvider('http://localhost:8545');
 let web3 = new Web3(provider);
-let Satellite = contract(satellite_artifacts);
-let ProofOfEmail = contract(email_artifacts);
-Satellite.setProvider(provider);
-ProofOfEmail.setProvider(provider);
 
-// perform on satellite contract
-Satellite.deployed()
-.then(res => satelliteInstance = res)
-.then(() => registerEvent = satelliteInstance.ModuleRegistered())
-.then(() => deregisterEvent = satelliteInstance.ModuleRemoved())
-.then(() => modifyEvent = satelliteInstance.EntryModified())
-.then(() => {
-  registerEvent.watch(onRegister);
-  deregisterEvent.watch(onDeregister);
-  modifyEvent.watch(onRegister);
+// ROUTING
+let server = express();
+server.post('/address/:address/email/:email', function (req, res) {
+  // generate the code and token
+  // send token to contract and send code to client
+  var code = Sentencer.make('{{ adjective }} {{ adjective }} {{ nouns }}');
+  var token = web3.sha3(code);
+  emailVerifyInstance.puzzle(
+    req.params.address, web3.sha3(token, {encoding: 'hex'}),
+    web3.sha3(req.params.email), {from: web3.eth.accounts[0]}
+  )
+  .then(() => {
+    sendCodeEmail(req.params.email, code);
+    res.send(`Verification email sent to ${req.params.email}`);
+  })
 })
 
-function onRegister (err, result) {
-  satelliteInstance.showModule(result.args.moduleName)
-  .then(moduleData => {
-    moduleIndex[result.args.moduleName] = {
-      owner: moduleData[0],
-      url: moduleData[1],
-      score: moduleData[2].toNumber(),
-      created: moduleData[3]
-    }
-    console.log('Indexed module entry for ' + result.args.moduleName);
-    console.log(moduleIndex);
-  })
-}
-
-function onDeregister (err, result) {
-  delete moduleIndex[result.args.moduleName];
-  console.log('Removed index entry for ' + result.args.moduleName);
-  console.log(moduleIndex);
-}
-
-// perform on ProofOfEmail contract
+// RUN SERVER
+let emailVerifyInstance;
+let ProofOfEmail = contract(email_artifacts);
+ProofOfEmail.setProvider(provider);
 ProofOfEmail.deployed()
-.then(res => emailVerifyInstance = res)
-.then(() => allEvents = emailVerifyInstance.allEvents())
-.then(() => allEvents.watch((err,res) => console.log(res)))
-// .then(() => requestedEvent = emailVerifyInstance.Requested())
-// .then(() => puzzledEvent = emailVerifyInstance.Puzzled())
-// .then(() => confirmedEvent = emailVerifyInstance.Confirmed())
-// .then(() => requestedEvent.watch((err, res) => console.log(res)))
-// .then(() => puzzledEvent.watch((err, res) => console.log(res)))
-// .then(() => confirmedEvent.watch((err, res) => console.log(res)))
+.then(instance => emailVerifyInstance = instance)
+.then(() => requestedEvent = emailVerifyInstance.Requested())
+.then(() => {
+  server.listen(3002, function () {
+    console.log('Server started')
+  })
+})
