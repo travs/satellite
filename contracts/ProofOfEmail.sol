@@ -1,7 +1,7 @@
-//! E-mail verification contract
-//! By Gav Wood, 2016.
-//! Released under the Apache Licence 2.
-//! Retrieved from https://git.io/vSN23
+//! E-mail verification contract; originally by Gav Wood, 2016.
+//! Originally released under the Apache Licence 2.
+//! Original retrieved from https://git.io/vSN23
+//! This version contains modifications from the original.
 
 pragma solidity ^0.4.0;
 

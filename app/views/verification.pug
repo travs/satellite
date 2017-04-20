@@ -1,0 +1,14 @@
+html
+  head
+    title= title
+  body
+    h1= message
+    form(action='/verify' method='POST')
+      div
+        label(for='email') Email Address: 
+        input(name='email' placeholder='example@google.com')
+      div
+        label(for='address') Ethereum Address: 
+        input(name='address' placeholder='0x8beef......')
+      div
+        button(type='submit') Send Verification Email
