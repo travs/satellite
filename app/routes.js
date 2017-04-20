@@ -42,4 +42,4 @@ router.post('/verify', function (req, res) {
   })
 })
 
-module.exports = router;
+module.exports = () => router
