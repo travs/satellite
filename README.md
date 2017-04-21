@@ -1,6 +1,6 @@
 <img align="right" src="https://git.io/vSDJZ">
 
-# Melon Satellite [![Build Status](https://travis-ci.org/melonproject/satellite.svg?branch=master)](https://travis-ci.org/melonproject/satellite)
+# Melon Satellite [![Build Status](https://travis-ci.org/melonproject/satellite.svg?branch=master)](https://travis-ci.org/melonproject/satellite) ![Dependencies](https://david-dm.org/melonproject/satellite.svg)
 
 A permissionless registry for publishing and 
 voting on community Melon modules.
