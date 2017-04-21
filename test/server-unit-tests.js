@@ -1,4 +1,5 @@
 const request = require('supertest');
+const moduleIndex = require('../app/module-index');
 
 describe('Tests of our minimal server', () => {
 contract('ProofOfEmail', accounts => {
@@ -6,7 +7,7 @@ contract('ProofOfEmail', accounts => {
   let address = accounts[3];
 
   before(() => server = require('../app/server.js'));
-  after(() => server.close());
+  after(() => server.close(moduleIndex.stopWatching()));
 
   it('Responds to GET /', () => {
     request(server)

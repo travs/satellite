@@ -4,7 +4,7 @@ const ProofOfEmail = global.artifacts.require('ProofOfEmail');
 const Sentencer = require('../node_modules/sentencer');
 const sg = require('../node_modules/sendgrid')(process.env.SENDGRID_API_KEY);
 const email = require('./email');
-const moduleIndex = require('./module-index');
+const moduleIndex = require('./module-index').index;
 
 // ROUTING
 router.get('/', function (req, res) {
