@@ -5,7 +5,7 @@ contract('ProofOfEmail', accounts => {
   let email = 'nycacevi@inboxbear.com';
   let address = accounts[3];
 
-  before(() => server = require('../app/app.js'));
+  before(() => server = require('../app/server.js'));
   after(() => server.close());
 
   it('Responds to GET /', () => {

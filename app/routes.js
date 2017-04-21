@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const ProofOfEmail = artifacts.require('ProofOfEmail');
+const ProofOfEmail = global.artifacts.require('ProofOfEmail');
 const Sentencer = require('../node_modules/sentencer');
 const sg = require('../node_modules/sendgrid')(process.env.SENDGRID_API_KEY);
 const email = require('./email');
