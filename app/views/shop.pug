@@ -3,3 +3,14 @@ html
     title= title
   body
     h1= message
+    table
+      thead
+        td= 'Module Name'
+        td= 'URL'
+        td= 'Score'
+      tbody
+        for module in modules
+          tr
+            td= module.name
+            td= module.url
+            td= module.score
