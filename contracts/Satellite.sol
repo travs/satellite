@@ -1,8 +1,11 @@
 pragma solidity ^0.4.8;
 
+import './ProofOfEmail.sol';
+
 contract Satellite {
 
     mapping (string => Module) private moduleRegistry;
+    ProofOfEmail verificationContract;
 
     struct Module {
         address owner;
@@ -39,15 +42,23 @@ contract Satellite {
         _;
     }
 
+    modifier isVerified (address addr) {
+        if(!verificationContract.certified(addr)) throw;
+        _;
+    }
+
     // CONSTRUCTOR
-    function Satellite(){}
+    function Satellite(address emailContract){
+        verificationContract = ProofOfEmail(emailContract);
+    }
 
     // USER INTERFACE
 
     //pre:  no module exists with this name
     //post: module with this name exists
     function registerModule (string name, string url) public
-    moduleDoesNotExist(name) {
+        moduleDoesNotExist(name)
+    {
         moduleRegistry[name] = Module({
             owner: msg.sender,
             moduleName: name,
@@ -62,8 +73,8 @@ contract Satellite {
     //pre:  module entry exists; sender is module's owner
     //post: module entry data changed (URL for now)
     function modifyEntry (string name, string newUrl) public
-    moduleExists(name)
-    moduleOwner(name)
+        moduleExists(name)
+        moduleOwner(name)
     {
         Module entry = moduleRegistry[name];
         entry.url = newUrl;
@@ -73,7 +84,9 @@ contract Satellite {
     //pre:  module with this name exists; sender is module's owner
     //post: no module with this name exists
     function removeModule (string name) public
-    moduleExists(name) moduleOwner(name) {
+        moduleExists(name)
+        moduleOwner(name)
+    {
         delete moduleRegistry[name];
         ModuleRemoved(name);
     }
@@ -81,7 +94,10 @@ contract Satellite {
     //pre:  module with this name exists; sender is not module's owner
     //post: module with this name changes its score by +|- 1
     function voteOnModule (string name, bool goodModule) public
-    moduleExists(name) notModuleOwner(name) {
+        moduleExists(name)
+        notModuleOwner(name)
+        isVerified(msg.sender)
+    {
         if(goodModule)
             moduleRegistry[name].score += 1;
         else
@@ -93,8 +109,9 @@ contract Satellite {
     //pre: module with name exists
     //returns: module data for module called `name`
     function showModule (string name) public constant
-    moduleExists(name)
-    returns (address owner, string url, int score, uint created) {
+        moduleExists(name)
+        returns (address owner, string url, int score, uint created)
+    {
         //NOTE: implemented since getter not compiler-generated
         //(see: https://github.com/ethereum/solidity/issues/498)
         Module mod = moduleRegistry[name];

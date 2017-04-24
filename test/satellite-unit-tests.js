@@ -31,34 +31,6 @@ describe("Module registration", () => {
     })
   });
 });
-describe("Module voting", () => {
-  it("does not error on vote from non-owner of module", () => {
-    assert.doesNotThrow(() =>
-      instance.voteOnModule('day-trader', true, {from: accounts[2]})
-    )
-  });
-  it("increments module score on positive vote", () => {
-    instance.showModule.call('day-trader')
-    .then(res => assert.equal(1, res[2]))
-  });
-  it("decrements module score on negative votes", () => {
-    instance.voteOnModule('day-trader', false, {from: accounts[2]})
-    .then(() => {
-      assert.doesNotThrow(() =>
-        instance.voteOnModule('day-trader', false, {from: accounts[3]})
-      )
-    })
-    .then(() =>
-      instance.showModule.call('day-trader')
-    )
-    .then(res => assert.equal(-1, res[2]))
-  });
-  it("errors when owner votes on own module", () => {
-    return extensions.assertThrows(() =>
-      instance.voteOnModule('day-trader', true, {from: accounts[1]})
-    );
-  });
-})
 describe("Entry modification", () => {
   it("does not error when modifying URL of an entry", () => {
     assert.doesNotThrow(() =>
