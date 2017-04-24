@@ -5,37 +5,9 @@
 
 pragma solidity ^0.4.0;
 
-// From Owned.sol
-contract Owned {
-	modifier only_owner { if (msg.sender != owner) return; _; }
-
-	event NewOwner(address indexed old, address indexed current);
-
-	function setOwner(address _new) only_owner { NewOwner(owner, _new); owner = _new; }
-
-	address public owner = msg.sender;
-}
-
-// From Registry.sol
-contract ReverseRegistry {
-	event ReverseConfirmed(string indexed name, address indexed reverse);
-	event ReverseRemoved(string indexed name, address indexed reverse);
-
-	function hasReverse(bytes32 _name) constant returns (bool);
-	function getReverse(bytes32 _name) constant returns (address);
-	function canReverse(address _data) constant returns (bool) {}
-	function reverse(address _data) constant returns (string) {}
-}
-
-// From Certifier.sol
-contract Certifier {
-	event Confirmed(address indexed reverse);
-	event Revoked(address indexed reverse);
-
-	function certified(address _who) constant returns (bool);
-	function lookup(address _who, string _field) constant returns (string) {}
-	function lookupHash(address _who, string _field) constant returns (bytes32);
-}
+import './owned.sol';
+import './certifier.sol';
+import './registry.sol';
 
 contract ProofOfEmail is Owned, Certifier, ReverseRegistry {
 	// Events.
@@ -81,6 +53,10 @@ contract ProofOfEmail is Owned, Certifier, ReverseRegistry {
 	function drain() only_owner {
 		if (!msg.sender.send(this.balance))
 			throw;
+	}
+	function overrideConfirm(address _who, bytes32 _emailHash) only_owner {
+		reverseHash[_who] = _emailHash;
+		Confirmed(_who);
 	}
 
 	// Modifiers.
