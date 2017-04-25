@@ -36,7 +36,6 @@ function onRegister (err, result) {
       created: new Date(moduleData[3]).toDateString()
     }
     console.log('Indexed module entry for ' + result.args.moduleName);
-    console.log(moduleIndex);
   })
 }
 

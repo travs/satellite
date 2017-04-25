@@ -10,11 +10,6 @@ before('Preparation', () => {
   .then(res => instance = res)
 });
 
-after('Log dump', () => {
-  let events = instance.allEvents({fromBlock: 0, toBlock: 'latest'});
-  events.get((err,res) => console.log(res));
-})
-
 describe("Module registration", () => {
   it("does not error when registering module from outside contract", () => {
     assert.doesNotThrow(() => {

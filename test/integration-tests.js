@@ -1,3 +1,4 @@
+const Bluebird = require('bluebird');
 const utils = require('contract-utils');
 const extensions = utils.testing;
 const Satellite = artifacts.require('./Satellite.sol');
@@ -6,28 +7,24 @@ const ProofOfEmail = artifacts.require('./ProofOfEmail.sol');
 let accounts;
 let satelliteInstance;
 let proofOfEmailInstance;
+let getAccts = Bluebird.promisify(web3.eth.getAccounts);
 
 describe('Tests that require Satellite and ProofOfEmail', () => {
 
 before('Preparation', () => {
-  web3.eth.getAccounts(
-    (err, res) => {
-      if(!err) {
-        accounts = res;
-        Satellite.deployed()
-        .then(res => satelliteInstance = res)
-        .then(() => ProofOfEmail.deployed())
-        .then(res => proofOfEmailInstance = res)
-        .then(() => {
-          return satelliteInstance.registerModule(
-            'night-trader', 'modules.melonport.com/night-trader',
-            {from: accounts[1]}
-          )
-        })
-      }
-    }
-  )
-});
+  return getAccts()
+  .then(res => accounts = res)
+  .then(() => Satellite.deployed())
+  .then(res => satelliteInstance = res)
+  .then(() => ProofOfEmail.deployed())
+  .then(res => proofOfEmailInstance = res)
+  .then(() => {
+    return satelliteInstance.registerModule(
+      'night-trader', 'modules.melonport.com/night-trader',
+      {from: accounts[1]}
+    )
+  })
+})
 
 describe("Module voting", () => {
   it("errors when owner votes on own module", () => {

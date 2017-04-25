@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/melonproject/satellite#readme",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "contract-utils": "github:travs/contract-utils",
     "ethereumjs-testrpc": "^3.0.3",
