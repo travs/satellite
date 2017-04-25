@@ -1,4 +1,5 @@
 const ProofOfEmail = artifacts.require('./ProofOfEmail.sol');
+require('./integration-tests.js');
 
 let instance;
 let email = 'nycacevi@inboxbear.com';

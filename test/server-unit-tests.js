@@ -1,5 +1,6 @@
 const request = require('supertest');
 const moduleIndex = require('../app/module-index');
+require('./satellite-unit-tests.js')
 
 describe('Tests of our minimal server', () => {
 contract('ProofOfEmail', accounts => {

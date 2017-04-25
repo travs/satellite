@@ -2,6 +2,8 @@ const utils = require('contract-utils');
 const extensions = utils.testing;
 const Satellite = artifacts.require('./Satellite.sol');
 
+require('./proof-of-email-unit-tests.js');
+
 contract("Satellite", accounts => {
 
 let instance;
@@ -33,13 +35,13 @@ describe("Entry modification", () => {
     )
   });
   it("stored the changed URL after it is modified", () => {
-    instance.showModule.call('day-trader')
+    return instance.showModule.call('day-trader')
     .then(res => assert.equal(res[1].toString(), 'newsite.io'));
   });
 })
 describe("Data access", () => {
   it("returns module data on request", () => {
-    instance.showModule.call('day-trader')
+    return instance.showModule.call('day-trader')
     .then(res => assert.isNotNull(res))
   });
 })
