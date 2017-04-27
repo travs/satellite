@@ -20,6 +20,11 @@ router.get('/shop', function (req, res) {
     { title: 'Modules', message: 'Browse modules', modules: moduleIndex })
 })
 
+router.get('/code', function (req, res) {
+  res.render('enter-code', 
+    {title: 'Verification', message: 'Enter the code we emailed you here'})
+})
+
 router.post('/verify', function (req, res) {
   // generate the code and token
   // send token to contract and send code to client
