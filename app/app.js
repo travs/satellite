@@ -5,6 +5,7 @@ const routes = require('./routes');
 
 // APP CONFIG
 let app = express();
+app.use('/client', express.static('client'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(routes());

@@ -20,7 +20,13 @@ router.get('/shop', function (req, res) {
     { title: 'Modules', message: 'Browse modules', modules: moduleIndex })
 })
 
-router.post('/verify', function (req, res) {
+router.get('/enter-code', function (req, res) {
+  res.render('enter-code',
+    {title: 'Verification', message: 'Enter the code we emailed you here'}
+  );
+})
+
+router.post('/beginVerify', function (req, res) {
   // generate the code and token
   // send token to contract and send code to client
   var code = Sentencer.make('{{ adjective }} {{ adjective }} {{ nouns }}');
@@ -35,10 +41,14 @@ router.post('/verify', function (req, res) {
   .then(() => {
     var request = email.sendCodeEmail(req.body.email, code);
     sg.API(request, (err, response) => {
-      if(!err)
+      if(!err) {
         res.status(200).send(`Verification email sent to ${req.body.email}`);
-      else
+        res.render('enter-code',
+          {title: 'Verification', message: 'Enter the code we emailed you here'}
+        );
+      } else {
         res.status(400).send('Failure sending mail');
+      }
     });
   })
 })
