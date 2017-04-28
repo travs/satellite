@@ -30,10 +30,16 @@ window.App = {
   submitCode: function() {
     var code = document.getElementById('code').value;
     console.log(`Submitting code "${code}"`);
-    ProofOfEmail.deployed(instance => {
+    ProofOfEmail.deployed()
+    .then(instance => {
       return instance.confirm(web3.sha3(code), {from: accounts[0]})
     })
-    .then(res => console.log(res));
+    .then(res => {
+      if(res.logs.length > 0) {
+        if(res.logs[0].event == 'Confirmed')
+          alert("Congratulations, you're verified!");
+      }}
+    });
   }
 }
 

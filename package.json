@@ -36,5 +36,8 @@
     "sentencer": "^0.1.5",
     "supertest": "^3.0.0",
     "truffle": "3.2.x"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }

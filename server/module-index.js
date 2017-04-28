@@ -1,9 +1,11 @@
 const Satellite = global.artifacts.require('Satellite');
+const ProofOfEmail = global.artifacts.require('ProofOfEmail');
 
 //events
 let registerEvent;
 let deregisterEvent;
 let satelliteInstance;
+let poeEvents;
 let index = {};
 
 // WATCH EVENTS
@@ -12,10 +14,17 @@ function startWatching() {
   .then(() => registerEvent = satelliteInstance.ModuleRegistered())
   .then(() => deregisterEvent = satelliteInstance.ModuleRemoved())
   .then(() => modifyEvent = satelliteInstance.EntryModified())
+  .then(ProofOfEmail.deployed)
+  .then(instance => poeEvents = instance.allEvents())
   .then(() => {
     registerEvent.watch(onRegister);
     deregisterEvent.watch(onDeregister);
     modifyEvent.watch(onRegister);
+    poeEvents.watch((err,res) => {
+      if(err)
+        console.log(err)
+      console.log(res);
+    });
   })
 }
 
@@ -23,6 +32,7 @@ function stopWatching() {
   registerEvent.stopWatching(() => console.log('Stopped watching register'));
   deregisterEvent.stopWatching(() => console.log('Stopped watching deregister'));
   modifyEvent.stopWatching(() => console.log('Stopped watching modify'));
+  poeEvents.stopWatching(() => console.log('Stopped watching ProofOfEmail'));
 }
 
 function onRegister (err, result) {
