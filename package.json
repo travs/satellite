@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "truffle test"
+    "test": "truffle test",
+    "start": "truffle compile && truffle deploy --network binary && truffle exec ./app/server.js --network binary"
   },
   "repository": {
     "type": "git",
@@ -36,8 +37,5 @@
     "sentencer": "^0.1.5",
     "supertest": "^3.0.0",
     "truffle": "3.2.x"
-  },
-  "devDependencies": {
-    "nodemon": "^1.11.0"
   }
 }
