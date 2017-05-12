@@ -1,5 +1,5 @@
 const request = require('supertest');
-const moduleIndex = require('../app/module-index');
+const moduleIndex = require('../server/module-index');
 require('./satellite-unit-tests.js')
 
 describe('Tests of our minimal server', () => {
@@ -7,7 +7,7 @@ contract('ProofOfEmail', accounts => {
   let email = 'nycacevi@inboxbear.com';
   let address = accounts[3];
 
-  before(() => server = require('../app/server.js'));
+  before(() => server = require('../server/server.js'));
   after(() => server.close(moduleIndex.stopWatching()));
 
   it('Responds to GET /', () => {
@@ -22,15 +22,15 @@ contract('ProofOfEmail', accounts => {
     .expect(200)
     .end((err, res) => assert.isNull(err))
   })
-  it('Responds to GET /shop', () => {
+  it('Responds to GET /modules', () => {
     request(server)
-    .get(`/shop`)
+    .get(`/modules`)
     .expect(200)
     .end((err, res) => assert.isNull(err))
   })
-  it('Responds to POST /verify', () => {
+  it('Responds to POST /verification', () => {
     request(server)
-    .post(`/verify`)
+    .post(`/verification`)
     .send({email: email, address: address})
     .expect(200)
     .end((err, res) => assert.isNull(err))

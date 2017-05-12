@@ -15,7 +15,7 @@ router.get('/verification', function (req, res) {
   res.render('verification', { title: 'Verification', message: 'Verify' })
 })
 
-router.get('/shop', function (req, res) {
+router.get('/modules', function (req, res) {
   res.render('shop',
     { title: 'Modules', message: 'Browse modules', modules: moduleIndex })
 })
@@ -25,7 +25,7 @@ router.get('/code', function (req, res) {
     {title: 'Verification', message: 'Enter the code we emailed you here'})
 })
 
-router.post('/verify', function (req, res) {
+router.post('/verification', function (req, res) {
   // generate the code and token
   // send token to contract and send code to client
   var code = Sentencer.make('{{ adjective }} {{ adjective }} {{ nouns }}');
