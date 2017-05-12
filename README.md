@@ -5,11 +5,14 @@
 A permissionless registry for publishing and 
 voting on community Melon modules.
 
-## Usage
+## Getting Started
 
 Install dependencies with `npm install`
 
-Run tests with `truffle test`
+Run tests with `npm test`
+
+Make sure you have an RPC client running (e.g. `testrpc`), then start the server with `npm start`
+
 
 ## Sample Functionality
 
